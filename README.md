@@ -1,5 +1,9 @@
 # Evander WebMCP
 
+Evander takes its name from the legendary Greek figure credited with bringing the
+alphabet to Italy. The name reflects the project's aim: opening new ways for
+people to access and interact with information.
+
 Expose public Drupal content to browser agents through WebMCP, and optionally add
 an accessible on-page chat assistant. Both interfaces use the same Drupal tools;
 WebMCP works without a reasoning backend.
