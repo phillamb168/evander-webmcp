@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { checkedUrl, sourceRecords, renderAnswer, boundedSources, boundedJson, Agent } from '../reference/backend/agent.mjs';
-import { verifyModel } from '../reference/backend/model.mjs';
+import { checkedUrl, sourceRecords, renderAnswer, boundedSources, boundedJson, Agent } from '../services/reference-backend/agent.mjs';
+import { verifyModel } from '../services/reference-backend/model.mjs';
 const origin = 'https://example.org';
 test('Only real source URLs are accepted', () => {
   for (const value of [undefined, null, '', 'javascript:alert(1)', 'https://user:pass@example.org', 'https://example.org/\nwrong']) assert.equal(checkedUrl(value, origin), null);

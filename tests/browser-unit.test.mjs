@@ -4,8 +4,8 @@ import { Window } from 'happy-dom';
 const win = new Window({ url: 'https://fixture.example/' });
 for (const key of ['document', 'HTMLElement', 'customElements', 'sessionStorage', 'location']) globalThis[key] = win[key];
 globalThis.window = win; globalThis.addEventListener = win.addEventListener.bind(win);
-const { registerTools, safeNavigation } = await import('../js/bridge.js');
-await import('../js/widget.js');
+const { registerTools, safeNavigation } = await import('../integrations/drupal/js/bridge.js');
+await import('../integrations/drupal/js/widget.js');
 test('Bridge does nothing on unsupported browsers', async () => {
   assert.equal(await registerTools({}, null), null);
 });

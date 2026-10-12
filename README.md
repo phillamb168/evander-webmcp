@@ -56,7 +56,7 @@ A managed Evander inference service is not yet available.
 
 Add business tools through Drupal plugins; the optional
 `evander_webmcp_example` module demonstrates a fictional read-only directory.
-The shared widget also has a React integration example in `reference/react`.
+The shared widget also has a React integration example in `examples/react-drupal`.
 
 See the [integration guide](docs/developer-guide.md) for tool contracts, content
 handlers and headless integration, or [development and testing](docs/local-testing.md)

@@ -8,7 +8,7 @@
     "test:php": "php tests/php/run.php",
     "verify": "node scripts/verify.mjs",
     "package": "node scripts/package.mjs",
-    "backend": "node --env-file-if-exists=.env reference/backend/server.mjs"
+    "backend": "node --env-file-if-exists=.env services/reference-backend/server.mjs"
   },
   "engines": {"node": ">=22"},
   "devDependencies": {"happy-dom": "^20.8.0"}

@@ -41,7 +41,7 @@ Navigation changes the browser page and is separate from read-only server tools.
 
 ## A custom public tool
 
-Start from `modules/evander_webmcp_example`. That module is explicitly fictional
+Start from `integrations/drupal/modules/evander_webmcp_example`. That module is explicitly fictional
 and optional; it must not be described as a live directory.
 
 For a real extension, create a separate Drupal module depending on

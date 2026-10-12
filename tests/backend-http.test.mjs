@@ -7,7 +7,7 @@ import { once } from 'node:events';
 test('Unconfigured reference server enforces browser origin and fails safely without inference', async () => {
   const probe = net.createServer(); probe.listen(0, '127.0.0.1'); await once(probe, 'listening');
   const port = probe.address().port; await new Promise(resolve => probe.close(resolve));
-  const child = spawn(process.execPath, ['reference/backend/server.mjs'], {
+  const child = spawn(process.execPath, ['services/reference-backend/server.mjs'], {
     cwd: new URL('..', import.meta.url), stdio: ['ignore', 'pipe', 'pipe'],
     env: { ...process.env, PORT: String(port), LISTEN_HOST: '127.0.0.1', SITE_ORIGIN: 'https://fixture.example', DRUPAL_TOOL_BASE: 'https://fixture.example', SITE_ID: 'fixture', OPENROUTER_API_KEY: '', OPENROUTER_MODEL: '', DEV_TLS_CERT: '', DEV_TLS_KEY: '' },
   });

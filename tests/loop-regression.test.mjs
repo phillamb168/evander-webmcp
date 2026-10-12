@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Agent, ReasoningLimitError, boundedSourceGroups } from '../reference/backend/agent.mjs';
+import { Agent, ReasoningLimitError, boundedSourceGroups } from '../services/reference-backend/agent.mjs';
 
 const origin = 'https://fixture.example';
 const toolNames = ['evander_find_pages', 'evander_read_page', 'evander_get_current_page', 'get_care_now'];
