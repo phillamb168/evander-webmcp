@@ -1,4 +1,4 @@
-import { registerTools } from '@evander-webmcp/browser';
+import { registerTools, focusSection } from '@evander-webmcp/browser';
 import '@evander-webmcp/widget';
 import '@evander-webmcp/widget/widget.css';
 import pages from './content.json';
@@ -14,6 +14,7 @@ for (const item of page?.sections ?? []) {
   const p = document.createElement('p'); p.textContent = item.text; section.append(h, p); main.append(section);
 }
 root.append(main);
+if (location.hash) focusSection(location.hash);
 if (import.meta.env.VITE_EVANDER_ENDPOINT && import.meta.env.VITE_EVANDER_SITE_ID) {
   const widget = document.createElement('evander-assistant'); widget.setAttribute('endpoint', import.meta.env.VITE_EVANDER_ENDPOINT); widget.setAttribute('site-id', import.meta.env.VITE_EVANDER_SITE_ID); root.prepend(widget);
 }

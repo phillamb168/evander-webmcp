@@ -36,6 +36,7 @@ for (const [mode, port] of [['plain', 5274], ['react', 5275]]) {
     await call(page, 'evander_navigate', { url: first.page.url + '#founding' });
     await expect(page).toHaveURL(/\/history#founding$/);
     await expect(page.locator('h1')).toHaveText('Library timeline');
+    await expect(page.locator('#founding')).toBeFocused();
     await expect.poll(() => page.evaluate(() => window.testTools.size)).toBe(5);
     await call(page, 'evander_get_current_page', {});
     await call(page, 'evander_navigate', { url: `http://127.0.0.1:${port}/history#founding` });
@@ -100,5 +101,21 @@ test('Headless Drupal maps the current route and renders genuine source anchors'
   expect((await call(page, 'evander_get_current_page', {})).page.path).toBe('/node/2');
   await page.goBack(); await expect(page.locator('h1')).toHaveText('Welcome to the developer preview');
   await page.goForward(); await expect(page.locator('h1')).toHaveText('Community timeline');
+  expect(await page.evaluate(() => window.registrationErrors)).toEqual([]);
+});
+
+test('Installed Drupal archive registers bundled tools and focuses a real section', async ({ page }) => {
+  test.skip(!process.env.DRUPAL_FIXTURE, 'Opt in with a disposable Drupal fixture');
+  await registrationHarness(page); await page.goto(process.env.DRUPAL_FIXTURE + '/');
+  await expect.poll(() => page.evaluate(() => window.testTools.size)).toBe(5);
+  const result = await call(page, 'evander_get_current_page', { path: '/invented' });
+  expect(result.page.title).toBe('Welcome to the developer preview');
+  const anchor=result.chunks.find(chunk=>chunk.anchor).anchor;
+  // The homepage's canonical URL is /node/1; visit that URL before testing
+  // same-page focus rather than treating / as a canonical-path alias in the bridge.
+  await page.goto(result.page.url); await expect.poll(() => page.evaluate(() => window.testTools.size)).toBe(5);
+  await call(page,'evander_get_current_page',{});
+  await call(page,'evander_navigate',{url:result.page.url+anchor});
+  await expect(page.locator(anchor)).toBeFocused();
   expect(await page.evaluate(() => window.registrationErrors)).toEqual([]);
 });
