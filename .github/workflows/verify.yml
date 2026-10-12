@@ -36,15 +36,15 @@ jobs:
       - name: Install test dependencies
         run: npm ci --ignore-scripts
       - name: Validate Composer metadata
-        run: composer validate --no-check-publish
+        run: composer validate --working-dir=integrations/drupal --no-check-publish
       - name: Verify tests and distribution contents
         run: npm run verify
       - name: Check PHP syntax
         run: git ls-files -z '*.php' '*.module' | xargs -0 -n 1 php -l
       - name: Build React example
         run: |
-          npm --prefix reference/react ci
-          npm --prefix reference/react run build
+          npm --prefix examples/react-drupal ci
+          npm --prefix examples/react-drupal run build
       - name: Archive installable Drupal module
         run: |
           tar -czf dist/evander_webmcp-0.1.0-alpha.1.tar.gz -C dist evander_webmcp

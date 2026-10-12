@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . '/../../src/Content/HtmlChunks.php';
-require __DIR__ . '/../../src/Tool/Schema.php';
+require __DIR__ . '/../../integrations/drupal/src/Content/HtmlChunks.php';
+require __DIR__ . '/../../integrations/drupal/src/Tool/Schema.php';
 use Drupal\evander_webmcp\Content\HtmlChunks;
 use Drupal\evander_webmcp\Tool\Schema;
 $count = 0;

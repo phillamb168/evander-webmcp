@@ -1,6 +1,6 @@
 // Opt-in, real inference on synthetic fixture content only. Never customer data.
 import assert from 'node:assert/strict';
-import { Agent } from '../reference/backend/agent.mjs';
+import { Agent } from '../services/reference-backend/agent.mjs';
 const origin = 'https://evander-preview10.ddev.site';
 if (process.env.SITE_ORIGIN !== origin || process.env.DRUPAL_TOOL_BASE !== origin) throw new Error('Synthetic fixture site required');
 let events = []; let cost = 0;

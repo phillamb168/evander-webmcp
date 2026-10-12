@@ -50,16 +50,16 @@ responses, section focus, close/reopen, clear, cancel and unavailable-backend st
 Also test announcements and keyboard navigation with NVDA or VoiceOver. Use only
 fictional links for action tests; do not activate real booking flows.
 
-The React example is client-only: `cd reference/react && npm ci && npm run build`. A React deployment needs a backend configured for its own origin and a public-content tool adapter; copying a component alone does not create a retrieval API.
+The React example is client-only: `cd examples/react-drupal && npm ci && npm run build`. A React deployment needs a backend configured for its own origin and a public-content tool adapter; copying a component alone does not create a retrieval API.
 
 For the local cross-origin example, run a second backend from the repository root
 using the same ignored key file and trusted local certificate:
 
 ```sh
-SITE_ORIGIN=http://localhost:5173 SITE_ID=evander-react-preview PORT=8182 NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem" DEV_TLS_CERT=.local/tls/localhost.pem DEV_TLS_KEY=.local/tls/localhost-key.pem node --env-file=.env reference/backend/server.mjs
+SITE_ORIGIN=http://localhost:5173 SITE_ID=evander-react-preview PORT=8182 NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem" DEV_TLS_CERT=.local/tls/localhost.pem DEV_TLS_KEY=.local/tls/localhost-key.pem node --env-file=.env services/reference-backend/server.mjs
 ```
 
-In another shell, from `reference/react`:
+In another shell, from `examples/react-drupal`:
 
 ```sh
 VITE_EVANDER_ENDPOINT=https://localhost:8182 VITE_EVANDER_SITE_ID=evander-react-preview npm run dev -- --port 5173 --strictPort
