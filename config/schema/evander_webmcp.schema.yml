@@ -1,0 +1,39 @@
+evander_webmcp.settings:
+  type: config_object
+  label: 'Evander WebMCP settings'
+  mapping:
+    enable_backend: {type: boolean, label: 'Enable Evander backend'}
+    backend_endpoint: {type: string, label: 'Backend endpoint'}
+    public_site_id: {type: string, label: 'Public site identifier'}
+    enabled_tools:
+      type: sequence
+      label: 'Enabled tools'
+      sequence: {type: string}
+    allowed_fields:
+      type: sequence
+      label: 'Public fields'
+      sequence: {type: string}
+    allowed_bundles:
+      type: sequence
+      label: 'Public node bundles (empty means all)'
+      sequence: {type: string}
+    allowed_blocks:
+      type: sequence
+      label: 'Explicit public block placements'
+      sequence: {type: string}
+    menus:
+      type: sequence
+      label: 'Navigation menus'
+      sequence: {type: string}
+    sitemaps:
+      type: sequence
+      label: 'Same-origin sitemap URLs'
+      sequence: {type: string}
+    search_index: {type: string, label: 'Search API index'}
+    search_fields:
+      type: sequence
+      label: 'Search API full-text fields'
+      sequence: {type: string}
+    max_response_bytes: {type: integer, label: 'Response byte limit'}
+    chunk_bytes: {type: integer, label: 'Chunk byte limit'}
+    requests_per_minute: {type: integer, label: 'Requests per minute per client'}

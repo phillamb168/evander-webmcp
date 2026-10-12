@@ -1,0 +1,19 @@
+enable_backend: false
+backend_endpoint: ''
+public_site_id: ''
+enabled_tools:
+  - evander_get_current_page
+  - evander_find_pages
+  - evander_read_page
+allowed_fields:
+  - body
+allowed_bundles: []
+allowed_blocks: []
+menus:
+  - main
+sitemaps: []
+search_index: ''
+search_fields: []
+max_response_bytes: 60000
+chunk_bytes: 6000
+requests_per_minute: 60

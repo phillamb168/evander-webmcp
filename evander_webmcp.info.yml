@@ -1,0 +1,10 @@
+name: Evander WebMCP
+type: module
+description: 'Public, read-only Drupal tools for WebMCP and an optional accessible assistant.'
+package: Evander
+core_version_requirement: ^10.6 || ^11
+php: 8.3
+dependencies:
+  - drupal:node
+  - drupal:block
+configure: evander_webmcp.settings
