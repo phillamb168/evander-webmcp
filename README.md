@@ -4,86 +4,62 @@ Evander takes its name from the legendary Greek figure credited with bringing th
 alphabet to Italy. The name reflects the project's aim: opening new ways for
 people to access and interact with information.
 
-Expose public Drupal content to browser agents through WebMCP, and optionally add
-an accessible on-page chat assistant. Both interfaces use the same Drupal tools;
-WebMCP works without a reasoning backend.
+Expose public site tools to compatible browser agents through WebMCP, and optionally
+add an accessible on-page assistant. Both interfaces use the same tools. Native
+WebMCP does not require an inference backend or an AI subscription from the site owner.
 
-**Developer preview — 0.1.0-alpha.1.** Requires Drupal 10.6 or 11 and PHP 8.3+.
+**Developer preview — 0.1.0-alpha.2.** Public content and read-only server tools.
+Browser navigation is a separate, user-requested client action.
 
-## Install and configure
+## Choose an integration
 
-Extract the module archive into `web/modules/custom/evander_webmcp`, then run:
+- [Drupal](integrations/drupal/README.md): install the self-contained module archive;
+  optional Search API discovery. Requires Drupal 10.6 or 11 and PHP 8.3+; no Node build needed.
+- [React](packages/react/README.md): the shared widget plus native WebMCP lifecycle
+  helpers. Use the [headless Drupal example](examples/react-drupal/README.md), or your own tool adapter.
+- [Non-CMS sites](examples/standalone/README.md): runnable plain HTML and React examples
+  backed by curated fictional content, with no CMS dependency.
+- WordPress: planned, not included in this preview.
 
-```sh
-drush en evander_webmcp -y
-drush cr
-```
+Installing a widget does not automatically index a website. The site integration
+supplies public content, search, tools and access enforcement.
 
-Open **Configuration → Web services → Evander WebMCP**
-(`/admin/config/services/evander-webmcp`) and select the public content fields,
-bundles, menus and tools to expose. All requests use anonymous access, even when
-the caller is logged in.
+## Shared components
 
-Compatible browsers can discover and call the registered tools to find pages,
-read content and navigate to verified pages or sections. Browsers without native
-WebMCP support can still use the optional chat assistant.
+`packages/contracts` defines the tool/content boundary; `packages/browser` registers
+native browser tools; `packages/widget` implements the accessible assistant;
+`packages/react` wraps those components. Drupal-specific PHP and initialization live
+in `integrations/drupal`. There is only one widget implementation.
 
-For full-text search, install Search API, enable `evander_webmcp_search_api`, and
-select a populated index and public search fields. Keep the index's content-access
-processor enabled. Without Search API, discovery searches configured navigation
-and sitemap labels/paths rather than full page text.
+The optional [reference backend](services/reference-backend/README.md) uses
+OpenRouter with a configured tool-capable model. Visitors do not need their own
+AI account; the operator pays for inference. The backend is single-site and uses
+in-memory sessions. See [security and privacy](SECURITY.md) before public hosting.
+Managed Evander inference is not yet available.
 
-## Optional chat assistant
+## Develop and extend
 
-The source repository includes a self-hosted OpenRouter reference backend:
-
-1. Copy `.env.example` to `.env`. Configure your server-side API key, tool-capable
-   model, Drupal origin, browser origin and site ID.
-2. Run `npm run backend` with Node 22+, using HTTPS for browser connections.
-3. Enable **Evander backend** in the Drupal settings and enter the backend URL
-   and matching public site ID. Never put an inference key in Drupal configuration
-   or browser code.
-
-The assistant returns source excerpts and links. It includes keyboard controls,
-response announcements and retained links. Human screen-reader validation is
-ongoing; test it with your site's users and assistive technologies.
-
-The reference backend uses single-site, in-memory sessions and is intended for
-evaluation. See [security and privacy](SECURITY.md) before hosting it publicly.
-A managed Evander inference service is not yet available.
-
-## Extend and develop
-
-Add business tools through Drupal plugins; the optional
-`evander_webmcp_example` module demonstrates a fictional read-only directory.
-The shared widget also has a React integration example in `examples/react-drupal`.
-
-See the [integration guide](docs/developer-guide.md) for tool contracts, content
-handlers and headless integration, or [development and testing](docs/local-testing.md)
-for local HTTPS setup and test fixtures.
-
-From a source checkout, with Node 22+ and PHP 8.3+:
+With Node 22+ and PHP 8.3+:
 
 ```sh
 npm ci
 npm run verify
+npm run build
 ```
 
-This runs offline tests and builds/audits `dist/evander_webmcp`. The installable
-module does not require Node; the backend, React example and tests are available
-separately in the source repository.
+Verification includes offline regressions, package audits and installation of the
+actual JavaScript tarballs outside this workspace. Builds produce self-contained
+Drupal/browser archives and JavaScript package tarballs under `dist`; these are
+GitHub downloads, not npm registry releases. Examples and the backend run from a
+source checkout. See [testing](docs/local-testing.md), [contracts](packages/contracts/README.md),
+[Drupal extension points](docs/developer-guide.md), and [migration](docs/migration-alpha2.md).
 
-Contributions should be submitted as pull requests with tests for changed behavior.
-
-## Preview scope
-
-Public, published node content and read-only server tools are supported. Custom
-routes, theme-only content and headless route/section mappings need integration.
-Page responses report partial coverage where applicable. Private content, write
-actions and a remote MCP JSON-RPC server are not included.
+Human screen-reader validation and browser-client compatibility testing are ongoing.
+Private content, server write actions, remote MCP JSON-RPC hosting, and a complete
+headless CMS application are not included. Please submit contributions as pull
+requests with tests, and report reproduction steps without sensitive information.
 
 ## License
 
-[GPL-2.0-or-later](LICENSE). The shared-tool approach and some generic content
-and section-anchor patterns grew out of work alongside the Audio Description
-Project (ADP).
+[GPL-2.0-or-later](LICENSE). The shared-tool approach and some generic content and
+section-anchor patterns grew out of work alongside the Audio Description Project (ADP).

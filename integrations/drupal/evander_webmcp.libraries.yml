@@ -1,10 +1,10 @@
 bridge:
-  version: 0.1.0-dev
+  version: 0.1.0-alpha.2
   js:
     js/bridge.js: {attributes: {type: module}}
   dependencies: [core/drupal, core/drupalSettings]
 widget:
-  version: 0.1.0-dev
+  version: 0.1.0-alpha.2
   js:
     js/widget.js: {attributes: {type: module}}
   css:

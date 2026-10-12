@@ -1,0 +1,1 @@
+{"name":"@evander-webmcp/react","version":"0.1.0-alpha.2","private":true,"type":"module","license":"GPL-2.0-or-later","exports":"./index.js","files":["index.js","README.md","LICENSE"],"peerDependencies":{"react":"^19.2.0"},"dependencies":{"@evander-webmcp/browser":"0.1.0-alpha.2","@evander-webmcp/widget":"0.1.0-alpha.2"}}

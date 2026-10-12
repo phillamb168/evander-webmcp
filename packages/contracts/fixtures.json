@@ -1,0 +1,7 @@
+{
+  "manifest":{"version":"1.0","tools":[{"name":"evander_read_page","title":"Read page","description":"Read public passages.","inputSchema":{"type":"object","properties":{"path":{"type":"string","maxLength":2048}},"required":["path"],"additionalProperties":false},"annotations":{"readOnlyHint":true,"untrustedContentHint":true}}]},
+  "call":{"name":"evander_read_page","arguments":{"path":"/history"}},
+  "page":{"version":"1.0","result":{"status":"ok","coverage":"partial","page":{"title":"History","path":"/history","url":"https://fixture.example/history"},"snapshot":"synthetic","chunks":[{"id":"opening","heading":"Opening","parents":[],"text":"The fictional library opened in 2010.","anchor":"#opening"}],"links":[],"omissions":[],"next":{"path":"/history","offset":1,"snapshot":"synthetic"}}},
+  "custom":{"version":"1.0","result":{"status":"ok","coverage":"complete","items":[{"id":"north","label":"Fictional North library","facts":[{"label":"Opening hours","value":"9 a.m. to 5 p.m."}],"links":[{"label":"North library details","url":"https://fixture.example/directory#north"}]}]}},
+  "stale":{"version":"1.0","result":{"status":"stale","reason":"Read again from offset zero."}}
+}

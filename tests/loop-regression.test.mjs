@@ -10,9 +10,9 @@ const quote = id => plan('evander_respond', { mode: 'quote', sourceIds: [id] });
 const page = (path, chunks, next = null) => ({ status: 'ok', coverage: 'partial', page: { title: 'Public fixture', url: origin + path }, chunks, next });
 const answerChunk = { id: 'history', heading: 'History', text: 'The community library opened in 2010.', anchor: '#history' };
 const answerId = `page:${origin}/library:history`;
-function harness(model, lookup, maxModelCalls = 4) {
+function harness(model, lookup, maxModelCalls = 4, config = {}) {
   const requests = []; const lookups = [];
-  const agent = new Agent({ origin, toolBase: origin, maxModelCalls, maxTurnTokens: 12000 }, async (url, options) => {
+  const agent = new Agent({ origin, toolBase: origin, maxModelCalls, maxTurnTokens: 12000, ...config }, async (url, options) => {
     if (url.endsWith('/tools')) return Response.json(manifest);
     const body = JSON.parse(options.body);
     if (url.endsWith('/call')) { lookups.push(body); return Response.json({ result: await lookup(body) }); }
@@ -20,6 +20,19 @@ function harness(model, lookup, maxModelCalls = 4) {
   });
   return { agent, requests, lookups };
 }
+test('Headless backend current-page calls use trusted route mapping, not model paths', async () => {
+  const run = harness((req, n) => n === 1 ? plan('evander_get_current_page', {path:'/invented'}) : quote(answerId), ({arguments:args}) => { assert.equal(args.path,'/library'); return page('/library',[answerChunk]); },4,{resolveCurrentPath:path=>path==='/about'?'/library':null});
+  const result = await run.agent.run({path:'/about',message:'Read this page'});
+  assert.match(result.answer,/2010/); assert.equal(result.links[0].url,origin+'/library#history');
+});
+test('An unmapped headless page returns unavailable without guessing an upstream path', async () => {
+  const run = harness((req,n) => {
+    if(n===1) return plan('evander_get_current_page',{path:'/invented'});
+    assert.match(req.messages.at(-1).content,/no configured content mapping/);
+    return plan('evander_respond',{mode:'not_found',sourceIds:[]});
+  },()=>{throw new Error('No upstream lookup expected');},4,{resolveCurrentPath:()=>null});
+  await run.agent.run({path:'/unmapped',message:'Read this page'}); assert.equal(run.lookups.length,0);
+});
 test('Discovery → 2010 follow-up finishes within four calls even after an unnecessary large-page read', async () => {
   const run = harness((request, n) => {
     if (n === 1) return plan('evander_find_pages', { query: 'library' });

@@ -13,4 +13,5 @@ run('php', ['tests/php/run.php']);
 run(process.execPath, ['scripts/audit-repository.mjs']);
 run(process.execPath, ['scripts/package.mjs']);
 run(process.execPath, ['scripts/audit-package.mjs']);
+run(process.execPath, ['scripts/test-packages.mjs']);
 console.log('Local verification passed. Live Drupal/browser/model tests and ongoing human screen-reader validation are separate.');

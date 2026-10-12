@@ -1,0 +1,1 @@
+{"name":"@evander-webmcp/widget","version":"0.1.0-alpha.2","private":true,"type":"module","license":"GPL-2.0-or-later","exports":{".":"./index.js","./widget.css":"./widget.css"},"files":["index.js","widget.css","README.md","LICENSE"],"dependencies":{"@evander-webmcp/contracts":"0.1.0-alpha.2"}}

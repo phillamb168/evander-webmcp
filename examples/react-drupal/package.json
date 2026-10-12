@@ -1,8 +1,9 @@
 {
-  "name": "evander-react-preview",
+  "name": "@evander-webmcp/example-react-drupal",
+  "version": "0.1.0-alpha.2",
   "private": true,
   "type": "module",
-  "scripts": { "dev": "vite --host 127.0.0.1", "build": "vite build" },
-  "dependencies": { "react": "^19.2.0", "react-dom": "^19.2.0" },
+  "scripts": { "dev": "vite --host 127.0.0.1 --port 5173 --strictPort", "build": "vite build" },
+  "dependencies": { "@evander-webmcp/contracts":"0.1.0-alpha.2", "@evander-webmcp/react":"0.1.0-alpha.2", "@evander-webmcp/browser":"0.1.0-alpha.2", "@evander-webmcp/widget":"0.1.0-alpha.2", "react": "^19.2.0", "react-dom": "^19.2.0" },
   "devDependencies": { "vite": "^7.1.0" }
 }

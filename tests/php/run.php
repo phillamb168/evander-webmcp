@@ -23,4 +23,9 @@ Schema::checkSchema($schema); Schema::validate(['limit' => 2], $schema);
 foreach ([['limit' => 0], ['limit' => '2'], ['limit' => 2, 'extra' => 1], []] as $input) {
   try { Schema::validate($input, $schema); throw new RuntimeException('Accepted invalid input'); } catch (InvalidArgumentException) { $count++; }
 }
+$fixtures = json_decode(file_get_contents(__DIR__ . '/../../packages/contracts/fixtures.json'), TRUE, 32, JSON_THROW_ON_ERROR);
+$contract = $fixtures['manifest']['tools'][0]['inputSchema'];
+Schema::checkSchema($contract); Schema::validate($fixtures['call']['arguments'], $contract);
+check($fixtures['manifest']['version'] === '1.0' && $fixtures['page']['version'] === '1.0', 'Shared contract version');
+check($fixtures['page']['result']['next']['snapshot'] === $fixtures['page']['result']['snapshot'], 'Shared continuation contract');
 echo "$count PHP assertions passed.\n";

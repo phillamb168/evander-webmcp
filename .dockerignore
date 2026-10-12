@@ -2,3 +2,6 @@
 !services/
 !services/reference-backend/
 !services/reference-backend/**
+!packages/
+!packages/contracts/
+!packages/contracts/**

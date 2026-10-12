@@ -1,0 +1,5 @@
+[
+  {"path":"/","title":"Fictional community library","sections":[{"id":"welcome","heading":"Welcome","text":"This is a fictional public information site, not a live service."},{"id":"history","heading":"History","text":"We opened the community library in 2010."}]},
+  {"path":"/history","title":"Library timeline","sections":[{"id":"founding","heading":"Founding","text":"The fictional library opened in 2010."},{"id":"garden","heading":"Community garden","text":"The community garden opened in 2015."},{"id":"reading","heading":"Reading room","text":"The reading room opened in 2020."},{"id":"access","heading":"Access improvements","text":"The fictional library added accessible reading stations in 2026."}]},
+  {"path":"/directory","title":"Fictional library directory","sections":[{"id":"north","heading":"North library","text":"North library has fictional opening hours of 9 a.m. to 5 p.m. Monday through Friday."},{"id":"south","heading":"South library","text":"South library has fictional opening hours of 10 a.m. to 4 p.m. Monday through Saturday."}]}
+]
