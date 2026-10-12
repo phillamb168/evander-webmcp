@@ -1,7 +1,8 @@
 // Install the actual tarballs outside the workspace, with no package symlinks.
 import { mkdtempSync, writeFileSync, readFileSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
+import { createRequire } from 'node:module';
 import { execFileSync } from 'node:child_process';
 const root = resolve(import.meta.dirname, '..'), consumer = mkdtempSync(join(tmpdir(), 'evander-package-consumer-'));
 const version = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version;
@@ -11,9 +12,19 @@ for (const archive of archives) {
   const paths = execFileSync('tar', ['-tzf', archive], { encoding: 'utf8' }).trim().split('\n');
   if (paths.some(path => !path.startsWith('package/') || /(?:^|\/)(?:\.env|node_modules|\.local|\.firecrawl|reference)(?:\/|$)/.test(path) || path.split('/').includes('..'))) throw new Error('Unsafe package content');
 }
-const react = JSON.parse(readFileSync(join(root, 'node_modules/react/package.json'), 'utf8')).version;
-const reactDom = JSON.parse(readFileSync(join(root, 'node_modules/react-dom/package.json'), 'utf8')).version;
-execFileSync('npm', ['install', '--offline', '--ignore-scripts', '--no-audit', '--no-fund', '--no-package-lock', ...archives, `react@${react}`, `react-dom@${reactDom}`], { cwd: consumer, stdio: 'pipe' });
+// npm ci caches package archives, but not necessarily registry metadata. Pack
+// the installed, lockfile-verified React runtime closure so this consumer test
+// needs neither a registry nor a pre-warmed developer-machine metadata cache.
+const require = createRequire(import.meta.url), visited = new Set(), runtime = [];
+function packRuntime(name, from = require) {
+  const file = from.resolve(name + '/package.json'); if (visited.has(file)) return;
+  visited.add(file); const manifest = JSON.parse(readFileSync(file, 'utf8'));
+  for (const dependency of Object.keys(manifest.dependencies ?? {})) packRuntime(dependency, createRequire(file));
+  const packed = JSON.parse(execFileSync('npm', ['pack', '--ignore-scripts', '--json', '--pack-destination', consumer], { cwd: dirname(file), encoding: 'utf8' }));
+  runtime.push(join(consumer, packed[0].filename));
+}
+packRuntime('react'); packRuntime('react-dom');
+execFileSync('npm', ['install', '--offline', '--cache', join(consumer, 'empty-cache'), '--ignore-scripts', '--no-audit', '--no-fund', '--no-package-lock', ...archives, ...runtime], { cwd: consumer, stdio: 'pipe' });
 execFileSync(process.execPath, ['--input-type=module', '-e', `
 import assert from 'node:assert/strict';
 import React from 'react'; import {renderToString} from 'react-dom/server';
