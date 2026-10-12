@@ -1,0 +1,3 @@
+administer evander webmcp:
+  title: 'Administer Evander WebMCP'
+  restrict access: true

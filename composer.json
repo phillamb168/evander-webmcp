@@ -1,0 +1,8 @@
+{
+  "name": "evander/evander_webmcp",
+  "description": "Public Drupal capabilities for WebMCP and an optional accessible site assistant.",
+  "type": "drupal-module",
+  "license": "GPL-2.0-or-later",
+  "require": {"php": ">=8.3", "drupal/core": "^10.6 || ^11"},
+  "autoload": {"psr-4": {"Drupal\\evander_webmcp\\": "src/"}}
+}

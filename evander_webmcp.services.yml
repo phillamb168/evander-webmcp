@@ -1,0 +1,17 @@
+services:
+  evander_webmcp.section_components:
+    class: Drupal\evander_webmcp\EventSubscriber\SectionComponents
+    tags:
+      - { name: event_subscriber }
+  plugin.manager.evander_tool:
+    class: Drupal\evander_webmcp\Tool\ToolManager
+    parent: default_plugin_manager
+  evander_webmcp.public_context:
+    class: Drupal\evander_webmcp\Content\PublicContext
+    arguments: ['@account_switcher', '@request_stack', '@router.request_context', '@router.no_access_checks', '@access_manager', '@path_processor_manager', '@path.current', '@current_route_match']
+  evander_webmcp.page_reader:
+    class: Drupal\evander_webmcp\Content\PageReader
+    arguments: ['@evander_webmcp.public_context', '@config.factory', '@entity_type.manager', '@renderer', '@request_stack']
+  evander_webmcp.discovery:
+    class: Drupal\evander_webmcp\Content\Discovery
+    arguments: ['@config.factory', '@menu.link_tree', '@http_client', '@cache.data', '@request_stack', '@evander_webmcp.public_context', '@module_handler', '@entity_type.manager']

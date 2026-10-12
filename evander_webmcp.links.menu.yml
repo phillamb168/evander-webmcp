@@ -1,0 +1,5 @@
+evander_webmcp.settings:
+  title: 'Evander WebMCP'
+  description: 'Public capabilities, content sources, and optional assistant.'
+  parent: system.admin_config_services
+  route_name: evander_webmcp.settings

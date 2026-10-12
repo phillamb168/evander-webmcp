@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * @file
+ * Drupal-hosted WebMCP registration and optional accessible assistant.
+ */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\evander_webmcp\Content\SectionRender;
+
+/** Implements hook_page_attachments(). */
+function evander_webmcp_page_attachments(array &$attachments): void {
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+  $settings = \Drupal::config('evander_webmcp.settings');
+  $attachments['#attached']['library'][] = 'evander_webmcp/bridge';
+  $attachments['#attached']['drupalSettings']['evanderWebmcp'] = [
+    'manifestUrl' => \Drupal\Core\Url::fromRoute('evander_webmcp.tools')->toString(),
+    'callUrl' => \Drupal\Core\Url::fromRoute('evander_webmcp.call')->toString(),
+    'enableBackend' => (bool) $settings->get('enable_backend'),
+  ];
+  if ($settings->get('enable_backend') && $settings->get('backend_endpoint') && $settings->get('public_site_id')) {
+    $attachments['#attached']['library'][] = 'evander_webmcp/widget';
+    $attachments['#attached']['drupalSettings']['evanderWebmcp'] += [
+      'backendEndpoint' => $settings->get('backend_endpoint'),
+      'publicSiteId' => $settings->get('public_site_id'),
+    ];
+  }
+  $attachments['#cache']['tags'][] = 'config:evander_webmcp.settings';
+}
+
+/** Implements hook_entity_view_alter(). Adds the same anchors used by retrieval. */
+function evander_webmcp_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display): void {
+  $fields = \Drupal::config('evander_webmcp.settings')->get('allowed_fields') ?? [];
+  foreach ($fields as $field) {
+    if (isset($build[$field]) && $entity->getEntityTypeId() === 'node') {
+      SectionRender::attach($build[$field], 'evander-' . $entity->id() . '-' . $field);
+    }
+  }
+}
+
+/** Implements hook_block_view_alter(). */
+function evander_webmcp_block_view_alter(array &$build, \Drupal\Core\Block\BlockPluginInterface $block): void {
+  $id = $build['#id'] ?? NULL;
+  if ($id && in_array($id, \Drupal::config('evander_webmcp.settings')->get('allowed_blocks') ?? [], TRUE)) SectionRender::attach($build, 'evander-block-' . $id);
+}

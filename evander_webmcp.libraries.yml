@@ -1,0 +1,13 @@
+bridge:
+  version: 0.1.0-dev
+  js:
+    js/bridge.js: {attributes: {type: module}}
+  dependencies: [core/drupal, core/drupalSettings]
+widget:
+  version: 0.1.0-dev
+  js:
+    js/widget.js: {attributes: {type: module}}
+  css:
+    component:
+      css/widget.css: {}
+  dependencies: [core/drupal, core/drupalSettings]

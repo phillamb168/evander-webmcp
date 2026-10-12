@@ -1,0 +1,13 @@
+name: evander-webmcp-preview
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: reference/backend/Dockerfile
+    env_file: ../.env
+    environment:
+      LISTEN_HOST: 0.0.0.0
+    ports: ['127.0.0.1:8180:8180']
+    restart: 'no'
+    read_only: true
+    cap_drop: [ALL]

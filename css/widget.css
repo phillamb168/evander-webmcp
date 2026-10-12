@@ -1,0 +1,8 @@
+evander-assistant { display: block; font: 1rem/1.5 system-ui, sans-serif; color: #172b3a; background: #fff; }
+evander-assistant .evander-panel { max-width: 56rem; padding: 1rem; margin: .5rem; border: 2px solid #245b7c; border-radius: .5rem; }
+evander-assistant [hidden] { display: none !important; }
+evander-assistant button, evander-assistant input { font: inherit; padding: .65rem; margin: .25rem; border: 2px solid #245b7c; border-radius: .25rem; color: #172b3a; background: #fff; }
+evander-assistant input { max-width: 100%; box-sizing: border-box; }
+evander-assistant :focus-visible { outline: 3px solid #b35c00; outline-offset: 3px; }
+evander-assistant a { color: #064b85; text-decoration: underline; }
+evander-assistant .evander-response { white-space: pre-wrap; margin: 1rem 0; }

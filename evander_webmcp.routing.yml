@@ -1,0 +1,25 @@
+evander_webmcp.settings:
+  path: '/admin/config/services/evander-webmcp'
+  defaults:
+    _form: '\Drupal\evander_webmcp\Form\SettingsForm'
+    _title: 'Evander WebMCP'
+  requirements:
+    _permission: 'administer evander webmcp'
+evander_webmcp.tools:
+  path: '/evander-webmcp/v1/tools'
+  defaults:
+    _controller: '\Drupal\evander_webmcp\Controller\ToolsController::manifest'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: true
+evander_webmcp.call:
+  path: '/evander-webmcp/v1/call'
+  defaults:
+    _controller: '\Drupal\evander_webmcp\Controller\ToolsController::call'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: true
