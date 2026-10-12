@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { Agent } from '../services/reference-backend/agent.mjs';
 const origin = 'https://evander-preview10.ddev.site';
-if (process.env.SITE_ORIGIN !== origin || process.env.DRUPAL_TOOL_BASE !== origin) throw new Error('Synthetic fixture site required');
+if (process.env.SITE_ORIGIN !== origin || (process.env.TOOL_BASE_URL || process.env.DRUPAL_TOOL_BASE) !== origin) throw new Error('Synthetic fixture site required');
 let events = []; let cost = 0;
 const agent = new Agent({ origin, toolBase: origin, model: process.env.OPENROUTER_MODEL, apiKey: process.env.OPENROUTER_API_KEY, maxModelCalls: 4, maxTurnTokens: 12000, onEvent: event => events.push(event) });
 for (let run = 1; run <= 3; run++) {

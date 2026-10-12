@@ -108,23 +108,24 @@ Headless Drupal is the first intended integration: React hosts the UI while
 Drupal provides the public-content/search/business tools. The shared component
 only needs the reasoning backend contract, so it is not inherently tied to Drupal.
 
-The current React example demonstrates **chat**, not a complete headless Drupal
-frontend and not automatic native WebMCP registration in React. A separately
-hosted React app must explicitly mount the native bridge and arrange safe access
-to Drupal's tool endpoints (for example through a reviewed same-origin proxy).
-The Drupal module does not inject scripts into another application's HTML.
+The React example now demonstrates native registration, chat, mapped routes and
+rendered source sections. It is still not a complete headless Drupal frontend.
+A separately hosted React app mounts `useWebMCP` and the optional `EvanderAssistant`
+from the shared React package. The example includes a bounded fixed-target
+development proxy; production hosting needs its own review. The Drupal module
+does not inject scripts into another application's HTML.
 
-Configure `SITE_ORIGIN` as the React browser origin and `DRUPAL_TOOL_BASE` as the
+Configure `SITE_ORIGIN` as the React browser origin and `TOOL_BASE_URL` as the
 fixed Drupal source. These are intentionally separate: CORS checks the former;
 source discovery is verified against the latter. Only the server has an
 inference key. `VITE_EVANDER_ENDPOINT` and `VITE_EVANDER_SITE_ID` are public values.
 
-The widget currently sends `location.pathname` and returns Drupal's canonical
-source/section links. The example's `/` points at the Drupal fixture front page.
-A real headless site needs explicit React-route-to-content mapping, source-link
-mapping and frontend section targets before claiming current-page reading or
-section navigation works throughout the app. Drupal remains responsible for
-access checks; changing frontend URLs is not authorization.
+The widget sends the browser path. A trusted route map resolves it to the source
+path for backend and native current-page reads. The example maps `/` to the fixture
+home and `/timeline` to its long page, rendering matching section IDs. Source URLs
+remain canonical internally; only explicitly mapped links become frontend links.
+Unmapped current pages are unavailable, and unmapped links retain their canonical
+destinations. Drupal remains responsible for access checks; mapping is not authorization.
 
 ## Reference backend behavior
 

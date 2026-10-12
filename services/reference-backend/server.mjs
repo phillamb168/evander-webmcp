@@ -3,13 +3,9 @@ import https from 'node:https';
 import { readFileSync } from 'node:fs';
 import { Agent, ReasoningLimitError } from './agent.mjs';
 import { verifyModel } from './model.mjs';
+import { loadConfig } from './config.mjs';
 
-const config = {
-  origin: process.env.SITE_ORIGIN, toolBase: process.env.DRUPAL_TOOL_BASE?.replace(/\/$/, ''),
-  siteId: process.env.SITE_ID, apiKey: process.env.OPENROUTER_API_KEY, model: process.env.OPENROUTER_MODEL,
-  maxModelCalls: Math.min(6, Number(process.env.MAX_MODEL_CALLS || 4)), maxTurnTokens: Math.min(30000, Number(process.env.MAX_TURN_TOKENS || 12000)),
-};
-if (!config.origin || !config.toolBase || !config.siteId) throw new Error('Configure SITE_ORIGIN, DRUPAL_TOOL_BASE and SITE_ID');
+const config = loadConfig();
 const agent = new Agent(config); const rates = new Map();
 if (config.apiKey && config.model) await verifyModel(config.model);
 const handler = async (req, res) => {
